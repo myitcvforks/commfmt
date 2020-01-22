@@ -26,7 +26,7 @@ Usage of commfmt:
 Here's an example of running the commfmt tool against a directory containing the following code block:
 
 ```
-$ commfmt -path . -width 80
+$ commfmt -path . -width 40
 ```
 
 **Before**:
