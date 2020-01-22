@@ -1,4 +1,7 @@
 # commfmt
+
+[![Build Status](https://travis-ci.org/codingconcepts/commfmt.svg?branch=master)](https://travis-ci.org/codingconcepts/commfmt)
+
 A standard for Go comments.
 
 ## Installation
