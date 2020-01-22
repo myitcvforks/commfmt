@@ -14,7 +14,7 @@ func (c *Config) Justify(input string) (string, error) {
 
 	builder := newErrWriter()
 	for i, p := range paragraphs {
-		if strings.HasPrefix(p, "\t") || strings.HasPrefix(p, "    ") {
+		if strings.HasPrefix(p, " ") || strings.HasPrefix(p, "\t") {
 			builder.write(p)
 		} else {
 			builder.write(c.justifyParagraph(p))

@@ -32,10 +32,58 @@ func TestJustify(t *testing.T) {
 			exp:   "// aa aa aa aa aa\n// aa aa aa",
 		},
 		{
-			name:  "multi line more than width",
+			name:  "multi line less than width",
 			input: "aa aa aa aa\naa aa aa aa aa",
 			width: 14,
 			exp:   "// aa aa aa aa aa\n// aa aa aa aa",
+		},
+		{
+			name:  "multi line more than width",
+			input: "aa aa aa aa aa aa aa aa aa\naa aa aa aa aa aa aa aa aa",
+			width: 14,
+			exp:   "// aa aa aa aa aa\n// aa aa aa aa aa\n// aa aa aa aa aa\n// aa aa aa",
+		},
+		{
+			name:  "multi paragraphs",
+			input: "aa aa aa aa\naa aa aa aa aa\n\naa aa aa aa\naa aa aa aa aa",
+			width: 14,
+			exp:   "// aa aa aa aa aa\n// aa aa aa aa\n// \n// aa aa aa aa aa\n// aa aa aa aa",
+		},
+		{
+			name:  "code section with 1 space",
+			input: " func main() {\n }",
+			width: 14,
+			exp:   "//  func main() {\n//  }",
+		},
+		{
+			name:  "code section with 2 spaces",
+			input: "  func main() {\n  }",
+			width: 14,
+			exp:   "//   func main() {\n//   }",
+		},
+		{
+			name:  "code section with 3 spaces",
+			input: "   func main() {\n   }",
+			width: 14,
+			exp:   "//    func main() {\n//    }",
+		},
+		{
+			name:  "code section with 4 spaces",
+			input: "    func main() {\n    }",
+			width: 14,
+			exp:   "//     func main() {\n//     }",
+		},
+		{
+			name:  "code section with 1 tab",
+			input: "\tfunc main() {\n\t}",
+			width: 14,
+			exp:   "// \tfunc main() {\n// \t}",
+		},
+		{
+			name:  "code section with 2 tabs",
+			input: "\t\tfunc main() {\n\t\t}",
+			width: 14,
+			exp:   "// \t\tfunc main() {\n// \t\t}",
 		},
 	}
 

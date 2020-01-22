@@ -22,3 +22,11 @@ func Assert(tb testing.TB, cond bool, format string, args ...interface{}) {
 		tb.Fatalf(format, args...)
 	}
 }
+
+// ErrorNil fails a given test if an error is not nil and prints the error.
+func ErrorNil(tb testing.TB, err error) {
+	tb.Helper()
+	if err != nil {
+		tb.Fatal(err)
+	}
+}

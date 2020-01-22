@@ -29,29 +29,30 @@ $ commfmt -path . -width 80
 **Before**:
 
 ``` go
-// Aaa bbb ccc ddd eee fff ggg hhh iii jjj kkk lll mmm nnn ooo ppp qqq rrr sss ttt uuu vvv www xxx yyy zzz.
+// Aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa.
 //
 //     if err != nil {
 //             return err
 //     }
 //
-// Aaa bbb ccc ddd eee fff ggg hhh iii jjj kkk lll mmm nnn ooo ppp qqq rrr sss ttt uuu vvv www xxx yyy zzz.
+// Bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb.
 ```
 
 **After**:
 
 ``` go
-// Aaa  bbb  ccc  ddd eee fff ggg hhh iii jjj kkk lll mmm nnn ooo ppp qqq
-// rrr sss ttt uuu vvv www xxx yyy zzz.
+// Aaa  aaa aaa aaa aaa aaa aaa aaa aaa aaa
+// aaa aaa aaa aaa aaa aaa.
 // 
 //     if err != nil {
 //             return err
 //     }
 // 
-// Aaa  bbb  ccc  ddd eee fff ggg hhh iii jjj kkk lll mmm nnn ooo ppp qqq
-// rrr sss ttt uuu vvv www xxx yyy zzz.
+// Bbb  bbb bbb bbb bbb bbb bbb bbb bbb bbb
+// bbb bbb bbb bbb bbb bbb.
 ```
 
 ## Todos
 
 * Currently supports `FuncDecl`, need to support more.
+* Test /**/ code blocks.

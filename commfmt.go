@@ -16,9 +16,9 @@ func main() {
 	flag.Parse()
 
 	c := &pkg.Config{
-		FS:		afero.NewOsFs(),
-		RootDir:	*dir,
-		Width:		*width,
+		FS:      afero.NewOsFs(),
+		RootDir: *dir,
+		Width:   *width,
 	}
 
 	if err := c.ParseDir(); err != nil {
