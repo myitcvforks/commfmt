@@ -1,8 +1,9 @@
-package main
+package pkg
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/codingconcepts/commfmt/internal/test"
 )
 
 func TestJustify(t *testing.T) {
@@ -28,7 +29,7 @@ func TestJustify(t *testing.T) {
 			name:  "single line more than width end padding",
 			input: "aa aa aa aa aa aa aa aa",
 			width: 14,
-			exp:   "// aa aa aa aa aa\n// aa aa aa   ",
+			exp:   "// aa aa aa aa aa\n// aa aa aa",
 		},
 		{
 			name:  "multi line more than width",
@@ -36,30 +37,17 @@ func TestJustify(t *testing.T) {
 			width: 14,
 			exp:   "// aa aa aa aa aa\n// aa aa aa aa",
 		},
-		{
-			name:  "single line more than width end padding",
-			input: "aa aa aa aa aa aa aa aa",
-			width: 14,
-			exp:   "// aa aa aa aa aa\n// aa aa aa   ",
-		},
 	}
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			ctx := &context{
-				width:  c.width,
-				prefix: "// ",
+			cfg := &Config{
+				Width: c.width,
 			}
 
-			act := ctx.justify(c.input)
-			equals(t, c.exp, act)
+			act, err := cfg.Justify(c.input)
+			test.Assert(t, err == nil, "unexpected error: %v", err)
+			test.Equals(t, c.exp, act)
 		})
-	}
-}
-
-func equals(tb testing.TB, exp, act interface{}) {
-	tb.Helper()
-	if !reflect.DeepEqual(exp, act) {
-		tb.Fatalf("\nexp:\t'%[1]v' (%[1]T)\ngot:\t'%[2]v' (%[2]T)", exp, act)
 	}
 }
