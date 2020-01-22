@@ -54,5 +54,6 @@ $ commfmt -path . -width 80
 
 ## Todos
 
+* Fix additional commented line when last paragraph is a code block.
 * Currently supports `FuncDecl`, need to support more.
-* Test /**/ code blocks.
+* Consider /**/ code blocks.
