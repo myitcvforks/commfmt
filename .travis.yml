@@ -1,0 +1,12 @@
+language: go
+
+go:
+- 1.13.x
+- master
+
+before_install:
+  - go get -u -d github.com/spf13/afero
+  - go get -u -d github.com/pkg/errors
+
+script:
+  make test
