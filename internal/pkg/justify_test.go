@@ -85,6 +85,18 @@ func TestJustify(t *testing.T) {
 			width: 14,
 			exp:   "// \t\tfunc main() {\n// \t\t}",
 		},
+		{
+			name:  "code section with tabs and a comment",
+			input: "\t// comment\n\tfunc main() {\n\t}",
+			width: 14,
+			exp:   "// \t// comment\n// \tfunc main() {\n// \t}",
+		},
+		{
+			name:  "code section with spaces and a comment",
+			input: " // comment\n func main() {\n }",
+			width: 14,
+			exp:   "//  // comment\n//  func main() {\n//  }",
+		},
 	}
 
 	for _, c := range cases {

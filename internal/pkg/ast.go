@@ -45,22 +45,20 @@ func (c *Config) ProcessFile(fset *token.FileSet, path string, node *ast.File) e
 		}
 
 		fn, ok := n.(*ast.FuncDecl)
-		if ok {
-			if fn.Doc.Text() != "" {
-				text, err := c.Justify(fn.Doc.Text())
-				if err != nil {
-					return false
-				}
-				comment := &ast.Comment{
-					Text:	text,
-					Slash:	fn.Pos() - 1,
-				}
-
-				ncg := &ast.CommentGroup{
-					List: []*ast.Comment{comment},
-				}
-				fn.Doc = ncg
+		if ok && fn.Doc.Text() != "" {
+			text, err := c.Justify(fn.Doc.Text())
+			if err != nil {
+				return false
 			}
+			comment := &ast.Comment{
+				Text:  text,
+				Slash: fn.Pos() - 1,
+			}
+
+			ncg := &ast.CommentGroup{
+				List: []*ast.Comment{comment},
+			}
+			fn.Doc = ncg
 		}
 
 		return true
