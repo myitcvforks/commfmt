@@ -11,17 +11,17 @@ import (
 func main() {
 	log.SetFlags(0)
 
-	dir := flag.String("path", ".", "the relative/absolute path of the root directory.")
-	width := flag.Int("width", 80, "the maximum width of comments.")
+	path := flag.String("p", ".", "the relative/absolute path of the root directory.")
+	width := flag.Int("w", 80, "the maximum width of comments.")
 	flag.Parse()
 
 	c := &pkg.Config{
-		FS:      afero.NewOsFs(),
-		RootDir: *dir,
-		Width:   *width,
+		FS:       afero.NewOsFs(),
+		RootPath: *path,
+		Width:    *width,
 	}
 
-	if err := c.ParseDir(); err != nil {
+	if err := c.ParseRoot(); err != nil {
 		log.Fatalf("error parsing directory: %v", err)
 	}
 }

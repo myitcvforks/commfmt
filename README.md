@@ -15,9 +15,9 @@ $ go get -u github.com/codingconcepts/commfmt
 ```
 $ commfmt -h
 Usage of commfmt:
-  -path string
+  -p string
         the relative/absolute path of the root directory. (default ".")
-  -width int
+  -w int
         the maximum width of comments. (default 80)
 ```
 
@@ -26,7 +26,7 @@ Usage of commfmt:
 Here's an example of running the commfmt tool against a directory containing the following code block:
 
 ```
-$ commfmt -path . -width 40
+$ commfmt -p . -w 40
 ```
 
 **Before**:
@@ -57,6 +57,24 @@ $ commfmt -path . -width 40
 
 ## Todos
 
-* Fix additional commented line when last paragraph is a code block.
-* Currently supports `FuncDecl`, need to support more.
+* FIXME: Additional commented line when last paragraph is a code block.
+* FIXME: Comments should align to their original column position (currently moving to 0):
+
+**Before**
+``` go
+func one() {
+	// Ccc ccc ccc ccc ccc ccc ccc ccc ccc ccc ccc ccc ccc ccc ccc ccc.
+	fmt.Println("Hello, World!")
+}
+```
+
+**After**
+``` go
+func one() {
+	// Ccc  ccc ccc ccc ccc ccc ccc ccc ccc ccc
+// ccc ccc ccc ccc ccc ccc.
+	fmt.Println("Hello, World!")
+}
+```
+
 * Consider /**/ code blocks.

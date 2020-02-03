@@ -5,15 +5,14 @@ import (
 	"go/parser"
 	"go/printer"
 	"go/token"
-	"log"
 	"os"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/afero"
 )
 
-func (c *Config) ParseDir() error {
-	return afero.Walk(c.FS, c.RootDir, func(path string, info os.FileInfo, err error) error {
+func (c *Config) ParseRoot() error {
+	return afero.Walk(c.FS, c.RootPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -21,13 +20,13 @@ func (c *Config) ParseDir() error {
 			fset := token.NewFileSet()
 			packages, err := parser.ParseDir(fset, path, nil, parser.ParseComments)
 			if err != nil {
-				log.Fatalf("error parsing directory: %v", err)
+				return errors.Wrap(err, "parsing directory")
 			}
 
 			for _, pkg := range packages {
 				for p, f := range pkg.Files {
 					if err := c.ProcessFile(fset, p, f); err != nil {
-						log.Fatalf("error processing file: %v", err)
+						return errors.Wrap(err, "processing file")
 					}
 				}
 			}
@@ -37,38 +36,27 @@ func (c *Config) ParseDir() error {
 }
 
 func (c *Config) ProcessFile(fset *token.FileSet, path string, node *ast.File) error {
-	comments := []*ast.CommentGroup{}
-	ast.Inspect(node, func(n ast.Node) bool {
-		cg, ok := n.(*ast.CommentGroup)
-		if ok {
-			comments = append(comments, cg)
+	cmap := ast.NewCommentMap(fset, node, node.Comments)
+
+	for _, cg := range cmap.Comments() {
+		pos := cg.List[len(cg.List)-1].Slash
+
+		justified, err := c.Justify(cg.Text())
+		if err != nil {
+			return errors.Wrap(err, "justifying")
 		}
 
-		fn, ok := n.(*ast.FuncDecl)
-		if ok && fn.Doc.Text() != "" {
-			text, err := c.Justify(fn.Doc.Text())
-			if err != nil {
-				return false
-			}
-			comment := &ast.Comment{
-				Text:  text,
-				Slash: fn.Pos() - 1,
-			}
-
-			ncg := &ast.CommentGroup{
-				List: []*ast.Comment{comment},
-			}
-			fn.Doc = ncg
+		cg.List = []*ast.Comment{
+			&ast.Comment{
+				Text:  justified,
+				Slash: pos,
+			},
 		}
-
-		return true
-	})
-
-	node.Comments = comments
+	}
 
 	f, err := os.Create(path)
 	if err != nil {
-		return errors.Wrap(err, "writing to file")
+		return errors.Wrap(err, "creating file")
 	}
 	defer f.Close()
 
