@@ -47,7 +47,7 @@ func TestJustify(t *testing.T) {
 			name:  "multi paragraphs",
 			input: "aa aa aa aa\naa aa aa aa aa\n\naa aa aa aa\naa aa aa aa aa",
 			width: 14,
-			exp:   "// aa aa aa aa aa\n// aa aa aa aa\n// \n// aa aa aa aa aa\n// aa aa aa aa",
+			exp:   "// aa aa aa aa aa\n// aa aa aa aa\n//\n// aa aa aa aa aa\n// aa aa aa aa",
 		},
 		{
 			name:  "code section with 1 space",

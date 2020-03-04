@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"strings"
+	"unicode"
 )
 
 // justify  takes  an  input  and  a  desired  line  length and returns a
@@ -36,8 +37,12 @@ func addComments(input string) (string, error) {
 	builder := newErrWriter()
 	lines := strings.Split(input, "\n")
 	for i, line := range lines {
-		builder.write("// ")
-		builder.write(line)
+		builder.write("//")
+		line := strings.TrimRightFunc(line, unicode.IsSpace)
+		if len(line) > 0 {
+			builder.write(" ")
+			builder.write(line)
+		}
 
 		if i < len(lines)-1 {
 			builder.write("\n")

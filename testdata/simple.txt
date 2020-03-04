@@ -1,0 +1,43 @@
+# Test that simple formatting works
+
+commfmt -w 40
+cmp main.go main.go.golden
+
+-- go.mod --
+module mod.com
+
+-- main.go --
+// Aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa.
+//
+//     if err != nil {
+//             return err
+//     }
+//
+// Bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb.
+package main
+
+func One() {
+	// a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+	// a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+	fmt.Println("Hello, World!")
+}
+-- main.go.golden --
+// Aaa  aaa aaa aaa aaa aaa aaa aaa aaa aaa
+// aaa aaa aaa aaa aaa aaa.
+//
+//     if err != nil {
+//             return err
+//     }
+//
+// Bbb  bbb bbb bbb bbb bbb bbb bbb bbb bbb
+// bbb bbb bbb bbb bbb bbb.
+package main
+
+func One() {
+
+	// a  a a a a a a a a a a a a a a a a a a a
+	// a  a a a a a a a a a a a a a a a a a a a
+	// a  a a a a a a a a a a a a a a a a a a a
+	// a a a a a a a a a a a a
+	fmt.Println("Hello, World!")
+}
